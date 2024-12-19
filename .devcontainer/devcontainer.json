@@ -1,0 +1,30 @@
+{
+    "appPort": [],
+    "capAdd": ["SYS_PTRACE"],
+    "containerEnv": {
+      "SHELL": "/usr/bin/fish"
+    },
+    "containerUser": "root",
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "MS-CEINTL.vscode-language-pack-zh-hans",
+          "PKief.material-icon-theme",
+          "zhuangtongfa.Material-theme"
+        ]
+      }
+    },
+    "hostRequirements": {
+      "cpus": 4
+    },
+    "build": {
+      "context": "",
+      "dockerfile": "Dockerfile"
+    },
+    "name": "mindspore",
+    "privileged": true,
+    "remoteUser": "root",
+    "securityOpt": ["seccomp=unconfined"],
+    "shutdownAction": "stopContainer"
+  }
+  
