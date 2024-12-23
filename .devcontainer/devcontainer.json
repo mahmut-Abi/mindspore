@@ -1,30 +1,42 @@
 {
-    "appPort": [],
-    "capAdd": ["SYS_PTRACE"],
-    "containerEnv": {
-      "SHELL": "/usr/bin/fish"
-    },
-    "containerUser": "root",
-    "customizations": {
-      "vscode": {
-        "extensions": [
-          "MS-CEINTL.vscode-language-pack-zh-hans",
-          "PKief.material-icon-theme",
-          "zhuangtongfa.Material-theme"
-        ]
-      }
-    },
-    "hostRequirements": {
-      "cpus": 4
-    },
-    "build": {
-      "context": "",
-      "dockerfile": "Dockerfile"
-    },
-    "name": "mindspore",
-    "privileged": true,
-    "remoteUser": "root",
-    "securityOpt": ["seccomp=unconfined"],
-    "shutdownAction": "stopContainer"
-  }
-  
+  "appPort": [],
+  "runArgs": [
+    "--network",
+    "host",
+    "--cap-add=ALL"
+  ],
+  "containerEnv": {
+    "SHELL": "/usr/bin/fish"
+  },
+  "containerUser": "root",
+  "mounts": [
+    "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "MS-CEINTL.vscode-language-pack-zh-hans",
+        "PKief.material-icon-theme",
+        "zhuangtongfa.Material-theme",
+        "ms-python.python",
+        "formulahendry.code-runner",
+        "donjayamanne.python-extension-pack"
+      ]
+    }
+  },
+  "hostRequirements": {
+    "cpus": 4
+  },
+  "build": {
+    "context": "",
+    "dockerfile": "Dockerfile"
+  },
+  "name": "mindspore",
+  "privileged": true,
+  "postStartCommand": "bash .devcontainer/postCommand.sh",
+  "remoteUser": "root",
+  "securityOpt": [
+    "seccomp=unconfined"
+  ],
+  "shutdownAction": "stopContainer"
+}
