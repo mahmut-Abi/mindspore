@@ -1,3 +1,7 @@
+#!/bin/bash
+
+# 单机多卡
+
 EXEC_PATH=$(pwd)
 if [ ! -d "${EXEC_PATH}/MNIST_Data" ]; then
     if [ ! -f "${EXEC_PATH}/MNIST_Data.zip" ]; then

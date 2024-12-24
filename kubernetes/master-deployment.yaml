@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mindspore-master
+  namespace: mindspore
+spec:
+  selector:
+    matchLabels:
+      app: mindspore-master
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mindspore
+    spec:
+      containers:
+        - name: mindspore
+          image: >-
+            registry.uniontech.com/uos-app/uos-server-20-mindspore:2.4.0
+          ports:
+            - containerPort: 8080

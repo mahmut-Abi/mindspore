@@ -10,4 +10,4 @@ update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 python -m pip install --root-user-action ignore --upgrade pip
 pip config set global.index-url https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
 
-pip install --root-user-action ignore matplotlib download
+pip install --root-user-action ignore matplotlib download pyarrow datasets
