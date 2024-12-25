@@ -5,17 +5,17 @@ from mindspore.nn import ExponentialDecayLR
 from mindspore.dataset import vision, transforms
 from mindspore.dataset import MnistDataset
 from mindspore.train import Model, CheckpointConfig, ModelCheckpoint, LossMonitor, SummaryCollector
-
+from mindspore import save_checkpoint
 
 context.set_context(mode=context.GRAPH_MODE, device_target="CPU", save_graphs=False)
 context.set_context(runtime_num_threads=96)
 
 # 数据集下载
-from download import download
+# from download import download
 
-url = "https://mindspore-website.obs.cn-north-4.myhuaweicloud.com/" \
-      "notebook/datasets/MNIST_Data.zip"
-path = download(url, "./", kind="zip", replace=True)
+# url = "https://mindspore-website.obs.cn-north-4.myhuaweicloud.com/" \
+#       "notebook/datasets/MNIST_Data.zip"
+# path = download(url, "./", kind="zip", replace=True)
 
 
 def datapipe(path, batch_size):
@@ -111,6 +111,7 @@ optimizer = nn.SGD(model.trainable_params(), learning_rate=lr_scheduler)
 # 设置为 steps_per_epoch，意味着每个 epoch 结束后会保存一个检查点
 # 确保每个 epoch 的训练状态都被记录下来，便于后续分析或恢复训练。
 config = CheckpointConfig(save_checkpoint_steps=steps_per_epoch)
+CheckpointConfig(save_checkpoint_seconds=0, keep_checkpoint_max=1, )
 
 # 回调会在满足条件时自动保存模型的状态
 # prefix="mnist"：指定保存的检查点文件名前缀
@@ -134,12 +135,15 @@ trainer = Model(model, loss_fn=loss_fn, optimizer=optimizer, metrics={'accuracy'
 # valid_frequency：指定验证的频率。
 # callbacks：回调函数列表，用于在训练的不同阶段执行特定操作，如保存检查点、监控损失等。
 # initial_epoch：开始训练的起始 epoch。
-trainer.fit(epoch=100, train_dataset=train_dataset, valid_dataset=test_dataset, callbacks=[ckpt_callback, loss_callback], initial_epoch=0)
+trainer.fit(epoch=20, train_dataset=train_dataset, valid_dataset=test_dataset, callbacks=[ckpt_callback, loss_callback], initial_epoch=0)
 
 # 在测试集上评估模型性能
 eval_results = trainer.eval(test_dataset)
 
-mindspore.export(model, model, file_name="model", file_format="MINDIR")
+# mindspore.export(model, model, file_name="model", file_format="MINDIR")
+
+# 保存模型
+save_checkpoint(model, "model.ckpt")
 
 # 打印评估结果
 print(f"Test Accuracy: {eval_results['accuracy']:.4f}")
